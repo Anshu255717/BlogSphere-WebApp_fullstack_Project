@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <title>Templates - BlogSphere</title>
+  <link rel="icon" type="image/x-icon" href="/images/fav.jpeg">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background-color: #f2f2f2;
+    }
+
+    .top-bar {
+      background-color: black;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .top-bar a {
+      color: white;
+      text-decoration: underline;
+    }
+
+    .main-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 30px;
+      background-color: #f7f7f7;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .main-nav .logo {
+      font-weight: bold;
+      font-size: 24px;
+      color: black;
+    }
+
+    .main-nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    .main-nav ul li a {
+      text-decoration: none;
+      color: black;
+      transition: color 0.3s;
+    }
+
+    .main-nav ul li a:hover {
+      color: grey;
+    }
+
+    .menu-icon {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .popup-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 250px;
+      height: 100%;
+      background-color: white;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      z-index: 1000;
+      overflow-y: auto;
+      transition: transform 0.3s ease;
+      transform: translateX(100%);
+    }
+
+    .popup-menu.open {
+      display: block;
+      transform: translateX(0);
+    }
+
+    .popup-menu a {
+      display: block;
+      text-decoration: none;
+      color: black;
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+      transition: background-color 0.3s;
+    }
+
+    .popup-menu a:hover {
+      background-color: #f0f0f0;
+    }
+
+    footer {
+      background-color: black;
+      color: white;
+      padding: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      width: 100%;
+    }
+
+    .footer-left,
+    .footer-center,
+    .footer-right {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .footer-left h3,
+    .footer-center h4,
+    .footer-right h4 {
+      margin: 0 0 15px;
+      font-size: 1.5em;
+    }
+
+    .footer-left p,
+    .footer-center ul,
+    .footer-right p {
+      margin: 0 0 10px;
+    }
+
+    .footer-center ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-center ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-center ul li a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-center ul li a:hover {
+      color: grey;
+    }
+
+    .social-media {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .social-icon {
+      text-decoration: none;
+      color: white;
+      font-size: 1.2em;
+      transition: color 0.3s;
+    }
+
+    .social-icon:hover {
+      color: grey;
+    }
+
+    .template-cards-section {
+  padding: 40px 30px;
+  background-color: #e9f5f9; 
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  row-gap: 5vw;
+  column-gap: 5vw;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  
+}
+
+
+.main-nav {
+  border-bottom: 1px solid #ddd; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+    .template-cards-title {
+      width: 100%;
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .template-card {
+      flex: 1;
+      min-width: 300px;
+      max-width: 300px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      opacity: 0;
+      animation: fadeInUp 0.6s forwards;
+    }
+
+    .template-card:nth-child(1) {
+      animation-delay: 0.2s;
+    }
+
+    .template-card:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+
+    .template-card:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
+    .template-card:nth-child(4) {
+      animation-delay: 0.8s;
+    }
+
+    .template-card:nth-child(5) {
+      animation-delay: 1s;
+    }
+
+    .template-card:nth-child(6) {
+      animation-delay: 1.2s;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .template-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .template-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .template-card-info {
+      padding: 20px;
+      text-align: center;
+      background-color: #f9f9f9;
+    }
+
+    .template-card-info h3 {
+      margin: 0;
+      font-size: 1.2em;
+      color: #333;
+    }
+
+    .template-card.active {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      transform: scale(1.05);
+      background-color: #e0e0e0;
+    }
+
+    .template-card.active img {
+      transform: scale(1.1);
+      transition: transform 0.3s;
+    }
+
+    .template-card.active .template-card-info {
+      background-color: #dcdcdc;
+    }
+
+    @media (max-width: 768px) {
+      .main-nav ul {
+        display: none;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        background-color: white;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        z-index: 10;
+      }
+
+      .menu-icon {
+        display: block;
+        color: black;
+      }
+
+      .template-cards-section {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .template-card {
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="top-bar">
+    Stay updated with the latest blogs and stories! <a href="#">Subscribe Now</a>
+  </div>
+  <nav class="main-nav">
+    <div class="logo"><i class="ri-blogger-fill"></i> BlogSphere</div>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blogs/all/posts">Blogs</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+    <div class="popup-menu">
+      <a href="/">Home</a>
+      <a href="/blogs/all/posts">Blogs</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </div>
+  </nav>
+  <section class="template-cards-section">
+    <h1 class="template-cards-title">Explore Our Templates</h1>
+    <div class="template-card">
+      <img src="/images/blog10.webp" alt="Template 1">
+      <div class="template-card-info">
+        <h3>Template 1</h3>
+      </div>
+    </div>
+    <div class="template-card">
+      <img src="/images/temp2.jpeg" alt="Template 2">
+      <div class="template-card-info">
+        <h3>Template 2</h3>
+      </div>
+    </div>
+    <div class="template-card">
+      <img src="/images/blog2.jpg" alt="Template 3">
+      <div class="template-card-info">
+        <h3>Template 3</h3>
+      </div>
+    </div>
+    <div class="template-card">
+      <img src="/images/blog4.png" alt="Template 4">
+      <div class="template-card-info">
+        <h3>Template 4</h3>
+      </div>
+    </div>
+    <div class="template-card">
+      <img src="/images/blog5.avif" alt="Template 5">
+      <div class="template-card-info">
+        <h3>Template 5</h3>
+      </div>
+    </div>
+    <div class="template-card">
+      <img src="/images/blog9.jpg" alt="Template 6">
+      <div class="template-card-info">
+        <h3>Template 6</h3>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-left">
+        <h3>BLOGSPHERE</h3>
+        <p>Your go-to platform for creating and sharing your passions.</p>
+        <p>&copy; 2024 Blogsphere. All rights reserved.</p>
+      </div>
+      <div class="footer-center">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="/"><i class="ri-home-4-fill"></i> Home</a></li>
+          <li><a href="/about"><i class="ri-profile-line"></i> About</a></li>
+          <li><a href="#features"><i class="ri-list-settings-line"></i> Features</a></li>
+          <li><a href="#testimonials"><i class="ri-chat-check-fill"></i> Testimonials</a></li>
+        </ul>
+      </div>
+      <div class="footer-right">
+        <h4>Contact Us</h4>
+        <p><i class="ri-mail-send-fill"></i> Email: support@blogsphere.com</p>
+        <p><i class="ri-phone-fill"></i> Phone: +1 (800) 123-4567</p>
+        <div class="social-media">
+          <a href="https://www.facebook.com" class="social-icon" target="_blank" rel="noopener noreferrer">
+            <i class="ri-facebook-fill"></i> Facebook
+          </a>
+          <a href="https://www.instagram.com" class="social-icon" target="_blank" rel="noopener noreferrer">
+            <i class="ri-instagram-fill"></i> Instagram
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.querySelector('.popup-menu');
+      menu.classList.toggle('open');
+    }
+    document.querySelectorAll('.template-card').forEach(card => {
+      card.addEventListener('click', function () {
+        document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
+
+        this.classList.add('active');
+      });
+    });
+  </script>
+</body>
+
+</html>

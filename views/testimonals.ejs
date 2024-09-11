@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <title>Testimonials - BlogSphere</title>
+  <link rel="icon" type="image/x-icon" href="images/fav.jpeg">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background: url('/images/testimonals.gif') no-repeat center center scroll;
+      background-size: cover;
+    }
+
+    .top-bar {
+      background-color: black;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .top-bar a {
+      color: white;
+      text-decoration: underline;
+    }
+
+    .main-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 30px;
+      background-color: #f7f7f7;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .main-nav .logo {
+      font-weight: bold;
+      font-size: 24px;
+      color: black;
+    }
+
+    .main-nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    .main-nav ul li a {
+      text-decoration: none;
+      color: black;
+      transition: color 0.3s;
+    }
+
+    .main-nav ul li a:hover {
+      color: grey;
+    }
+
+    .menu-icon {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .popup-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 250px;
+      height: 100%;
+      background-color: white;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      z-index: 1000;
+      overflow-y: auto;
+      transition: transform 0.3s ease;
+      transform: translateX(100%);
+    }
+
+    .popup-menu.open {
+      display: block;
+      transform: translateX(0);
+    }
+
+    .popup-menu a {
+      display: block;
+      text-decoration: none;
+      color: black;
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+      transition: background-color 0.3s;
+    }
+
+    .popup-menu a:hover {
+      background-color: #f0f0f0;
+    }
+
+    footer {
+      background-color: black;
+      color: white;
+      padding: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      width: 100%;
+    }
+
+    .footer-left,
+    .footer-center,
+    .footer-right {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .footer-left h3,
+    .footer-center h4,
+    .footer-right h4 {
+      margin: 0 0 15px;
+      font-size: 1.5em;
+    }
+
+    .footer-left p,
+    .footer-center ul,
+    .footer-right p {
+      margin: 0 0 10px;
+    }
+
+    .footer-center ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-center ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-center ul li a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-center ul li a:hover {
+      color: grey;
+    }
+
+    .social-media {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .social-icon {
+      text-decoration: none;
+      color: white;
+      font-size: 1.2em;
+      transition: color 0.3s;
+    }
+
+    .social-icon:hover {
+      color: grey;
+    }
+
+    .testimonials-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 50px;
+      background-color: rgba(240, 240, 240, 0.1);
+      position: relative;
+      flex-wrap: wrap;
+    }
+
+    .message-box {
+      width: 350px;
+      max-width: 90%;
+      height: 100px;
+      padding: 40px 30px;
+      border-radius: 15px;
+      background-color: #f4f4f4;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: left;
+      font-size: 18px;
+      color: #333;
+      margin: 20px;
+      position: relative;
+      word-wrap: break-word;
+    }
+
+    .message-box:after {
+      content: '';
+      position: absolute;
+      top: 20px;
+      right: -20px;
+      border-width: 10px;
+      border-style: solid;
+      border-color: transparent transparent transparent #f4f4f4;
+    }
+
+    .phone-container {
+      width: 400px;
+      height: 500px;
+      border: 16px solid rgba(0, 0, 0, 0.1);
+      border-radius: 40px;
+      background-color: #000;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      margin-left: auto;
+    }
+
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .image-slider {
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.5s ease-in-out;
+      height: 100%;
+    }
+
+    .image-card {
+      width: 100%;
+      height: 100%;
+      flex-shrink: 0;
+      background-color: #fff;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    .image-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @media (max-width: 1024px) {
+      .testimonials-section {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .phone-container {
+        max-width: 90%;
+        height: auto;
+      }
+
+      .message-box {
+        width: 90%;
+        margin-bottom: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-nav ul {
+        display: none;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        background-color: white;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        z-index: 10;
+      }
+
+      .menu-icon {
+        display: block;
+        color: black;
+      }
+
+      .testimonials-section {
+        padding: 20px;
+      }
+
+      .message-box {
+        width: 100%;
+        margin: 10px 0;
+      }
+
+      .phone-container {
+        width: 100%;
+        height: 400px;
+      }
+
+      footer {
+        text-align: center;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer-left,
+      .footer-center,
+      .footer-right {
+        flex: none;
+        margin: 10px 0;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="top-bar">
+    Stay updated with the latest blogs and stories! <a href="#">Subscribe Now</a>
+  </div>
+  <nav class="main-nav">
+    <div class="logo"><i class="ri-blogger-fill"></i> BlogSphere</div>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blogs/all/posts">Blogs</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+    <div class="popup-menu">
+      <a href="/">Home</a>
+      <a href="/blogs/all/posts">Blogs</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </div>
+  </nav>
+
+  <section class="testimonials-section">
+    <div class="message-box" id="message-box">
+      BlogSphere has transformed the way I engage with my audience. The platform is not only intuitive but also
+      incredibly powerful, allowing me to focus on what I do best—creating content...
+    </div>
+
+    <div class="phone-container">
+      <div class="phone-screen">
+        <div class="image-slider" id="image-slider">
+          <div class="image-card"><img src="/images/client1.png" alt="Image 1"></div>
+          <div class="image-card"><img src="/images/client2.png" alt="Image 2"></div>
+          <div class="image-card"><img src="/images/client3.png" alt="Image 3"></div>
+          <div class="image-card"><img src="/images/client5.png" alt="Image 4"></div>
+          <div class="image-card"><img src="/images/client6.png" alt="Image 5"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-left">
+        <h3>About BlogSphere</h3>
+        <p>BlogSphere is your go-to platform for diverse and insightful blogs, covering topics from technology to
+          lifestyle. Join our community today and start sharing your stories.</p>
+      </div>
+      <div class="footer-center">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="/"><i class="ri-home-4-fill"></i> Home</a></li>
+          <li><a href="/about"><i class="ri-profile-line"></i> About</a></li>
+          <li><a href="/contact"><i class="ri-phone-fill"></i> Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-right">
+        <h4>Connect with Us</h4>
+        <div class="social-media">
+          <a href="https://www.facebook.com" class="social-icon"> <i class="ri-facebook-fill"></i> Facebook</a>
+          <a href="https://x.com/i/flow/login" class="social-icon"><i class="ri-twitter-fill"></i> Twitter</a>
+          <a href="https://www.instagram.com" class="social-icon"> <i class="ri-instagram-fill"></i> Instagram</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+
+    function toggleMenu() {
+      const popupMenu = document.querySelector('.popup-menu');
+      popupMenu.classList.toggle('open');
+    }
+
+
+    const images = document.querySelectorAll('.image-card');
+    let currentImageIndex = 0;
+    const messageBox = document.getElementById('message-box');
+    const messages = ["BlogSphere has transformed the way I engage with my audience. The platform is not only intuitive but also incredibly powerful, allowing me to focus on what I do best—creating content...", "I've tried many blogging platforms, but BlogSphere stands out. The user interface is clean and easy to navigate, making it simple to publish high-quality content...", "As a travel blogger, I need a platform that's easy to use on the go. BlogSphere delivers that and more! I love the responsive design and the ability to engage with my readers directly through comments and feedback...", "BlogSphere's customizable themes and templates have given my tech blog the professional look it needed. The platform is fast, responsive, and packed with features that cater to both beginners and seasoned bloggers...", "For anyone looking to create a professional blog, BlogSphere is a no-brainer. It offers all the tools needed to grow an audience and monetize content effectively..."];
+
+    function showNextImage() {
+      currentImageIndex = (currentImageIndex + 1) % images.length;
+      document.getElementById('image-slider').style.transform = `translateY(-${currentImageIndex * 100}%)`;
+      messageBox.style.opacity = 0;
+      setTimeout(() => {
+        messageBox.textContent = messages[currentImageIndex];
+        messageBox.style.opacity = 1;
+      }, 500);
+    }
+
+    setInterval(showNextImage, 3000);
+  </script>
+</body>
+
+</html>

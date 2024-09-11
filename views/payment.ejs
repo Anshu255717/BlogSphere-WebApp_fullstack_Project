@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogsphere Payment</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <link rel="icon" type="image/x-icon" href="/images/fav.jpeg">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: row;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 450px;
+            width: 100%;
+            padding: 30px;
+            background-color: #f9f9f9;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .instructions {
+            width: 300px;
+            padding: 30px;
+            background-color: #eef1f7;
+            text-align: left;
+            border-left: 2px solid #5b82e3;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 26px;
+            font-weight: 500;
+        }
+
+        p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        input[type="radio"] {
+            margin: 15px 0;
+            cursor: pointer;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+            font-size: 18px;
+        }
+
+        button {
+            width: 90%;
+            padding: 14px;
+            margin: 15px auto;
+            background-color: #5b82e3;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.3s;
+            box-sizing: border-box;
+            display: block;
+        }
+
+        button:hover {
+            background-color: #4968c3;
+            transform: translateY(-2px);
+        }
+
+        .home-button {
+            background-color: #007bff;
+            margin-top: 10px;
+        }
+
+        .home-button:hover {
+            background-color: #0056b3;
+        }
+
+        .error, .success {
+            margin-top: 15px;
+            font-size: 15px;
+            display: none;
+        }
+
+        .error {
+            color: #e63946;
+        }
+
+        .success {
+            color: #2a9d8f;
+        }
+
+        .loading {
+            display: none;
+            margin-top: 20px;
+            color: #333;
+            font-size: 16px;
+        }
+
+        @media (max-width: 800px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .instructions {
+                width: 100%;
+                border-left: none;
+                border-top: 2px solid #5b82e3;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            h2 {
+                font-size: 22px;
+            }
+            button {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <div class="container">
+            <h2>Create Your Blog - Secure Payment</h2>
+            <label>
+                <input type="radio" name="amount" value="2000" checked> Pay 2000 for One-Year Subscription
+            </label>
+            <button id="checkout-button">Proceed to Payment</button>
+            <button class="home-button" onclick="window.location.href='/';">Back to Home</button>
+            <div id="error-message" class="error"></div>
+            <div id="success-message" class="success">Payment Session Created Successfully!</div>
+            <div id="loading" class="loading">Processing your payment...</div>
+        </div>
+        
+        <div class="instructions">
+            <h3>Subscription Details</h3>
+            <p><strong>Amount:</strong> 2000</p>
+            <p>The amount required for a one-year subscription is 2000. This subscription allows you to create and manage your own blog for one year.</p>
+            <p>After the one-year period, you will have to purchase the subscription again to continue using the service.</p>
+            <p><strong>Secure Payments:</strong> All transactions are securely processed via Stripe.</p>
+        </div>
+    </div>
+
+    <script>
+        const stripe = Stripe('pk_test_51PtD1dEqIDfF7LLYjxCL50vG7e4toNLGzDNK1yUPRcQzs4konPVpyUnpeO85I8Sql4ur0m9iNLg7fgHBodB9xGtJ009LrBytO4');
+
+        const checkoutButton = document.getElementById('checkout-button');
+        const errorMessage = document.getElementById('error-message');
+        const successMessage = document.getElementById('success-message');
+        const loadingIndicator = document.getElementById('loading');
+
+        checkoutButton.addEventListener('click', async () => {
+            const amount = 2000;  
+
+            errorMessage.style.display = 'none';
+            loadingIndicator.style.display = 'block'; 
+
+            try {
+                const response = await fetch('http://localhost:3002/create-checkout-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        amount: amount * 100 
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+
+                const session = await response.json();
+                loadingIndicator.style.display = 'none';
+                successMessage.style.display = 'block'; 
+
+                const result = await stripe.redirectToCheckout({
+                    sessionId: session.id,
+                });
+
+                if (result.error) {
+                    errorMessage.textContent = result.error.message;
+                    errorMessage.style.display = 'block';
+                }
+            } catch (error) {
+                errorMessage.textContent = 'An error occurred while creating the payment session.';
+                errorMessage.style.display = 'block';
+                loadingIndicator.style.display = 'none';
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

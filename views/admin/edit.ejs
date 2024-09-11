@@ -1,0 +1,19 @@
+<%- include('./adminheader') %>
+<div class="content">
+        <h2>Edit Post</h2>
+        <form action="/blogs/edit/<%=data._id%>" method="POST">
+            <div class="form-group">
+                <label for="title">Post Title</label>
+                <input type="text" id="title" name="title"  value="<%=data.title%>" required>
+            </div>
+            <div class="form-group">
+                <label for="content">Post Content</label>
+                <textarea id="content" name="content" rows="10" required><%=data.content%></textarea>
+            </div>
+            <button type="submit">Edit Post</button>
+            <%if(typeof(message)!='undefined'){%>
+            <p style="margin-top:5vh; color:red;"><%=message%></p>
+             <%}%>
+        </form>
+    </div>
+<%- include('./adminfooter') %>

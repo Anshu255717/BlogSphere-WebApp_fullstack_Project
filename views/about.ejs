@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <title>About Us - Blogsphere</title>
+  <link rel="icon" type="image/x-icon" href="images/fav.jpeg">
+  <style>
+
+    body {
+      font-family: "Arial", sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background-color: #f0f0f0;
+    }
+
+    .top-bar {
+      background-color: black;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .top-bar a {
+      color: white;
+      text-decoration: underline;
+    }
+
+    .main-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 50px;
+      background-color: #f7f7f7;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .main-nav .logo {
+      font-weight: bold;
+      font-size: 24px;
+      color: black;
+    }
+
+    .main-nav ul {
+      list-style: none;
+      display: flex;
+      gap: 45px;
+    }
+
+    .main-nav ul li a {
+      text-decoration: none;
+      color: black;
+      transition: color 0.3s;
+    }
+
+    .main-nav ul li a:hover {
+      color: grey;
+    }
+
+    .menu-icon {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .popup-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 250px;
+      height: 100%;
+      background-color: white;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      z-index: 1000;
+      overflow-y: auto;
+      transition: transform 0.3s ease;
+      transform: translateX(100%);
+    }
+
+    .popup-menu.open {
+      display: block;
+      transform: translateX(0);
+    }
+
+    .popup-menu a {
+      display: block;
+      text-decoration: none;
+      color: black;
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+      transition: background-color 0.3s;
+    }
+
+    .popup-menu a:hover {
+      background-color: #f0f0f0;
+    }
+
+    footer {
+      background-color: black;
+      color: white;
+      padding: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      width: 100%;
+    }
+
+    .footer-left,
+    .footer-center,
+    .footer-right {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .footer-left h3,
+    .footer-center h4,
+    .footer-right h4 {
+      margin: 0 0 15px;
+      font-size: 1.5em;
+    }
+
+    .footer-left p,
+    .footer-center ul,
+    .footer-right p {
+      margin: 0 0 10px;
+      font-size: 1em;
+    }
+
+    .footer-center ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-center ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-center ul li a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-center ul li a:hover {
+      color: grey;
+    }
+
+    .social-media {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .social-icon {
+      text-decoration: none;
+      color: white;
+      font-size: 1.2em;
+      transition: color 0.3s;
+    }
+
+    .social-icon:hover {
+      color: grey;
+    }
+
+
+    .about-section {
+      background-color: #f9f9f9;
+      padding: 60px 20px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 20px;
+      border-radius: 10px;
+    }
+
+    .about-section h2 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    .about-section p {
+      font-size: 1.2em;
+      color: #555;
+      margin-bottom: 40px;
+      line-height: 1.6;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+
+    .team {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 50px;
+    }
+
+    .team-member {
+      background-color: #f0f0f0;
+      padding: 20px;
+      border-radius: 10px;
+      width: 250px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .team-member:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .team-member img {
+      width: 200px;
+      height: 200px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .team-member h3 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+
+    .team-member p {
+      color: #777;
+      font-size: 1em;
+      text-align: center;
+    }
+
+    .mission-vision {
+      margin-top: 60px;
+      text-align: left;
+      padding: 0 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .mission-vision h3 {
+      font-size: 2em;
+      margin-bottom: 15px;
+    }
+
+    .mission-vision p {
+      color: #555;
+      line-height: 1.8;
+      margin-bottom: 30px;
+      text-align: justify;
+    }
+
+    .background-image {
+      position: relative;
+      background-image: url('images/about.jpg');
+      background-size: 100% 100%;
+      background-position: center;
+      padding: 100px 20px;
+      text-align: center;
+      color: white;
+      height: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .background-image::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+
+    .background-image h2,
+    .background-image p {
+      position: relative;
+      z-index: 2;
+    }
+
+    .background-image h2 {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+
+    .background-image p {
+      font-size: 1.5em;
+      max-width: 650px;
+      margin: 0 auto;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 0.15em solid orange;
+      animation: typing 4s steps(25, end), blink-caret 0.75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from {
+        width: 0;
+      }
+
+      to {
+        width: 90%;
+      }
+    }
+
+    @keyframes blink-caret {
+      from,
+      to {
+        border-color: transparent;
+      }
+
+      50% {
+        border-color: orange;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-nav ul {
+        display: none;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        background-color: white;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        z-index: 10;
+      }
+
+      .menu-icon {
+        display: block;
+        color: black;
+      }
+
+      .team {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .mission-vision {
+        text-align: center;
+      }
+
+      .about-section {
+        padding: 40px 10px;
+      }
+
+      .background-image {
+        padding: 60px 20px;
+        height: auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main-nav {
+        padding: 10px;
+      }
+
+      .about-section h2 {
+        font-size: 2em;
+      }
+
+      .about-section p {
+        font-size: 1em;
+      }
+      .team-member {
+        width: 90%;
+      }
+
+      .background-image h2 {
+        font-size: 2em;
+      }
+
+      .background-image p {
+       display:none;
+    }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="top-bar">
+    Stay updated with the latest blogs and stories! <a href="#">Subscribe Now</a>
+  </div>
+  <nav class="main-nav">
+    <div class="logo"><i class="ri-blogger-fill"></i> Blogsphere</div>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blogs/all/posts">Blogs</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+    <div class="menu-icon"><i class="ri-menu-line"></i></div>
+  </nav>
+
+  <div class="popup-menu">
+    <a href="/">Home</a>
+    <a href="/about">About Us</a>
+    <a href="/contact">Contact</a>
+  </div>
+
+  <div class="background-image">
+    <h2>Blogsphere</h2>
+    <p>Your go-to platform for creating and sharing your passions...</p>
+  </div>
+
+  <section class="about-section">
+    <h2>About US</h2>
+    <p>At Blogsphere, we are passionate about sharing knowledge, insights, and stories that matter. From technology to lifestyle, our blog platform covers a wide range of topics that keep our readers informed and inspired. With a team of dedicated writers and contributors, we aim to bring you the most engaging content every day.</p>
+    <div class="team">
+      <div class="team-member">
+        <img src="images/ceo.avif" alt="Team Member 1">
+        <h3>John Doe</h3>
+        <p>Co-Founder & CEO</p>
+      </div>
+      <div class="team-member">
+        <img src="images/dev.avif" alt="Team Member 2">
+        <h3>Jane Smith</h3>
+        <p>Chief Editor</p>
+      </div>
+      <div class="team-member">
+        <img src="images/writer.jpg" alt="Team Member 3">
+        <h3>Bob Johnson</h3>
+        <p>Content Strategist</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mission-vision">
+    <h3>Our Mission</h3>
+    <p>To provide a platform that encourages sharing knowledge and inspires readers through high-quality, engaging content on various topics.</p>
+    <h3>Our Vision</h3>
+    <p>To become a leading blog platform where passionate writers and curious readers come together to learn, grow, and connect with the world.</p>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-left">
+        <h3>Blogsphere</h3>
+        <p>Your one-stop platform for engaging and informative blogs across various topics.</p>
+      </div>
+      <div class="footer-center">
+        <h4>Useful Links</h4>
+        <ul>
+          <li><a href="/"><i class="ri-home-4-fill"></i> Home</a></li>
+          <li><a href="/about"><i class="ri-profile-line"></i> About Us</a></li>
+          <li><a href="/contact"><i class="ri-phone-fill"></i> Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-right">
+        <h4>Follow Us</h4>
+        <div class="social-media">
+          <a href="https://www.facebook.com" class="social-icon"><i class="ri-facebook-fill"></i> Facebook</a>
+          <a href="#" class="social-icon"><i class="ri-twitter-fill"></i> Twitter</a>
+          <a href="https://www.instagram.com" class="social-icon"><i class="ri-instagram-fill"></i> Instagram</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script>
+    const menuIcon = document.querySelector('.menu-icon');
+    const popupMenu = document.querySelector('.popup-menu');
+
+    menuIcon.addEventListener('click', () => {
+      popupMenu.classList.toggle('open');
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+  const phrases = [
+    "Your go-to platform for creating and sharing your passions...",
+    "Discover new and exciting content every day!",
+    "Join our community of passionate bloggers and readers.",
+    "Explore a world of ideas and inspiration with us!"
+  ];
+
+  const typingElement = document.querySelector('.background-image p');
+  let currentPhraseIndex = 0;
+
+  function typeEffect(text, i, fnCallback) {
+    if (i < text.length) {
+      typingElement.innerHTML = text.substring(0, i + 1) + '<span aria-hidden="true"></span>';
+      setTimeout(() => typeEffect(text, i + 1, fnCallback), 50);
+    } else if (typeof fnCallback == 'function') {
+      setTimeout(fnCallback, 1000);
+    }
+  }
+
+  function deleteEffect(text, i, fnCallback) {
+    if (i >= 0) {
+      typingElement.innerHTML = text.substring(0, i) + '<span aria-hidden="true"></span>';
+      setTimeout(() => deleteEffect(text, i - 1, fnCallback), 50);
+    } else if (typeof fnCallback == 'function') {
+      setTimeout(fnCallback, 1000);
+    }
+  }
+
+  function startTyping() {
+    typeEffect(phrases[currentPhraseIndex], 0, () => {
+      setTimeout(() => {
+        deleteEffect(phrases[currentPhraseIndex], phrases[currentPhraseIndex].length, () => {
+          currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
+          startTyping();
+        });
+      }, 2000);
+    });
+  }
+
+  startTyping();
+});
+  </script>
+</body>
+
+</html>

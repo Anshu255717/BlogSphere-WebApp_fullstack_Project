@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <title>Blogsphere</title>
+  <link rel="icon" type="image/x-icon" href="images/fav.jpeg">
+  <style>
+    body {
+      font-family: "Arial", sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background-color: #f0f0f0;
+    }
+
+    .top-bar {
+      background-color: black;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .top-bar a {
+      color: white;
+      text-decoration: underline;
+    }
+
+    .main-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .main-nav .logo {
+      font-weight: bold;
+      font-size: 24px;
+    }
+
+    .main-nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .main-nav ul li {
+      display: inline;
+    }
+
+    .main-nav ul li a {
+      text-decoration: none;
+      color: black;
+      transition: color 0.3s;
+    }
+
+    .main-nav ul li a:hover {
+      color: grey;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 20px;
+    }
+
+    .auth-buttons a {
+      text-decoration: none;
+      color: black;
+      transition: background-color 0.3s;
+      padding: 5px 15px;
+      border-radius: 5px;
+    }
+
+    .auth-buttons .get-started {
+      background-color: white;
+      border: 2px solid black;
+    }
+
+    .auth-buttons .get-started:hover {
+      background-color: black;
+      color: white;
+    }
+    .login {
+    background: linear-gradient(45deg, #007bff, #0056d2); 
+    color: white;
+    border: none; 
+    border-radius: 8px; 
+    padding: 10px 20px; 
+    font-size: 18px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.login:hover {
+    background: linear-gradient(45deg, #6fb2fa, #007bff); 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
+    transform: translateY(-2px); 
+}
+
+.login:active {
+    transform: translateY(0); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      padding: 30px 50px;
+      background: url("/images/bloos.png") no-repeat center center/cover;
+      color: white;
+      min-height: 600px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-content {
+      max-width: 50%;
+      margin-bottom: 300px;
+    }
+
+    .hero-content h1 {
+      font-size: 3em;
+      margin-left: 20px;
+      line-height: 1.2;
+      margin-top: -20px;
+    }
+
+    .hero-image {
+      max-width: 45%;
+    }
+
+    .slider {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .slider img {
+      width: 100%;
+      display: none;
+    }
+
+    .slider img.active {
+      display: block;
+    }
+
+   
+    .templates,
+    .features,
+    .testimonials {
+      padding: 50px;
+      text-align: center;
+    }
+
+    .templates-content,
+    .features-content,
+    .testimonials-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 50px;
+    }
+
+    .templates-content .text,
+    .features-content .text,
+    .testimonials-content .text {
+      max-width: 50%;
+    }
+
+    .templates-content .template-slider,
+    .features-content .feature-slider,
+    .testimonials-content .testimonial-slider {
+      max-width: 45%;
+    }
+
+    .templates h2,
+    .features h2,
+    .testimonials h2 {
+      margin-bottom: 20px;
+      font-size: 2em;
+    }
+
+    .templates p,
+    .features p,
+    .testimonials p {
+      margin-bottom: 20px;
+      font-size: 1.2em;
+    }
+
+    .templates a,
+    .features a,
+    .testimonials a {
+      display: inline-block;
+      margin-bottom: 20px;
+      text-decoration: none;
+      color: black;
+      border: 2px solid black;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .templates a:hover,
+    .features a:hover,
+    .testimonials a:hover {
+      background-color: black;
+      color: white;
+    }
+
+    .templates ul,
+    .features ul,
+    .testimonials ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .templates ul li,
+    .features ul li,
+    .testimonials ul li {
+      margin-bottom: 10px;
+      text-decoration: underline;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .templates ul li:hover,
+    .features ul li:hover,
+    .testimonials ul li:hover {
+      color: grey;
+    }
+
+    .menu-icon {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .popup-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 250px;
+      height: 100%;
+      background-color: white;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      z-index: 1000;
+      overflow-y: auto;
+      transition: transform 0.3s ease;
+      transform: translateX(100%);
+    }
+
+    .popup-menu.open {
+      display: block;
+      transform: translateX(0);
+    }
+
+    .popup-menu a {
+      display: block;
+      text-decoration: none;
+      color: black;
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+      transition: background-color 0.3s;
+    }
+
+    .popup-menu a:hover {
+      background-color: #f0f0f0;
+    }
+
+    footer {
+      background-color: black;
+      color: white;
+      padding: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      width: 100%;
+    }
+
+    .footer-left,
+    .footer-center,
+    .footer-right {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .footer-left h3,
+    .footer-center h4,
+    .footer-right h4 {
+      margin: 0 0 15px;
+      font-size: 1.5em;
+    }
+
+    .footer-left p,
+    .footer-center ul,
+    .footer-right p {
+      margin: 0 0 10px;
+      font-size: 1em;
+    }
+
+    .footer-center ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-center ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-center ul li a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-center ul li a:hover {
+      color: grey;
+    }
+
+    .social-media {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .social-icon {
+      text-decoration: none;
+      color: white;
+      font-size: 1.2em;
+      transition: color 0.3s;
+    }
+
+    .social-icon:hover {
+      color: grey;
+    }
+    
+    .info-blocks {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px auto;
+    max-width: 1200px;
+    padding: 20px;
+}
+
+.info-block {
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    flex: 1;
+    margin: 10px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.info-block:hover {
+    transform: translateY(-10px);
+}
+
+.icon {
+    font-size: 50px;
+    color: #8a6d3b; 
+    margin-bottom: 20px;
+}
+
+.info-block h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.info-block p {
+    font-size: 16px;
+    color: #777;
+    line-height: 1.6;
+}
+    @media (max-width: 768px) {
+    .main-nav {
+        flex-direction: row;
+        align-items: center;
+        padding: 10px;
+        position: relative;
+    }
+
+    .main-nav ul {
+        display: none;
+        position: absolute;
+        top: 50px; 
+        right: 0;
+        background-color: white;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .main-nav ul.show {
+        display: flex; 
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .main-nav ul li {
+        margin: 10px 0;
+        font-size: 1rem;
+    }
+
+    .menu-icon {
+        display: block;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: #333;
+    }
+
+    .popup-menu {
+        display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 250px;
+        height: 100%;
+        background-color: white;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        z-index: 1000;
+        overflow-y: auto;
+        transition: transform 0.3s ease;
+        transform: translateX(100%);
+    }
+
+    .popup-menu.open {
+        display: block;
+        transform: translateX(0);
+    }
+
+    .popup-menu a {
+        display: block;
+        text-decoration: none;
+        color: black;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        transition: background-color 0.3s;
+        font-size: 1rem;
+    }
+
+    .popup-menu a:hover {
+        background-color: #f0f0f0;
+    }
+
+    .auth-buttons {
+        margin-top: 10px;
+        flex-direction: column;
+        gap: 10px;
+        margin-right:60px;
+    }
+
+    .hero {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        padding: 20px;
+        height: 500px;
+        margin: 0;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .hero-image {
+        width: 100%;
+        height: auto;
+        max-height: 60vh;
+        object-fit: cover;
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        right: 0;
+    }
+
+    .hero-content {
+        position: relative;
+        text-align: center;
+        max-width: 100%;
+        z-index: 1;
+        padding: 20px;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5em;
+        margin-top: 60px;
+        margin-bottom: 20px;
+    }
+
+    .domain-search {
+        margin: 20px 0;
+        padding: 15px;
+    }
+
+    .get-started-btn {
+        display: none;
+    }
+
+    .templates-content,
+    .features-content,
+    .testimonials-content {
+        flex-direction: column;
+    }
+
+    .templates-content .text,
+    .features-content .text,
+    .testimonials-content .text,
+    .templates-content .template-slider,
+    .features-content .feature-slider,
+    .testimonials-content .testimonial-slider {
+        max-width: 100%;
+    }
+
+    .templates-content .template-slider,
+    .features-content .feature-slider,
+    .testimonials-content .testimonial-slider {
+        margin-top: 20px;
+    }
+
+    .auth-buttons
+     {
+       display:none;
+    }
+
+    footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-nav ul li {
+        font-size: 0.875rem; 
+    }
+    .hero {
+        padding: 10px;
+        height: 300px;
+    }
+
+    .hero-image {
+        max-height: 350px;
+        position: absolute;
+        bottom: 100px;
+        left: 150px;
+    }
+
+    .slider {
+        width: 100%;
+    }
+
+    .hero-content h1 {
+        font-size: 2em;
+        margin-top: 40px;
+    }
+
+    .domain-search {
+        padding: 10px;
+    }
+
+    .templates-content .text,
+    .features-content .text,
+    .testimonials-content .text {
+        font-size: 0.875em;
+    }
+
+    .templates-content h2,
+    .features-content h2,
+    .testimonials-content h2 {
+        font-size: 1.25em;
+    }
+
+    .templates-content p,
+    .features-content p,
+    .testimonials-content p {
+        font-size: 0.875em;
+    }
+    .info-blocks {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .info-block {
+        margin-bottom: 20px;
+        width: 80%;
+    }
+}
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="top-bar">
+      <p><a href="/about">Discover Blogsphere</a></p>
+    </div>
+    <nav class="main-nav">
+      <div class="logo">
+        <i class="ri-blogger-fill"></i> BLOGSPHERE
+      </div>
+      <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+      <ul>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/blogs/all/posts">Show All Posts</a></li>
+      </ul>
+      <div class="auth-buttons">
+        <a href="/admin/login" class="login" style="color:white;">Log In</a>
+        <a href="/admin/signup" class="get-started">Create a Blog</a>
+      </div>
+    </nav>
+    <div class="popup-menu" id="popup-menu">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/blogs/all/posts">Show All Posts</a>
+      <a href="#templates">Templates</a>
+      <a href="#features">Features</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="/admin/login" class="login">Log In</a>
+      <a href="/admin/signup" class="get-started">Create a Blog</a>
+    </div>
+  </header>
+  
+  <section class="hero">
+    <div class="hero-content">
+      <h1>PUBLISH YOUR PASSIONS, IN YOUR WAY!</h1>
+    </div>
+    <div class="hero-image">
+      <div class="slider sliders">
+        <img src="/images/blog1.jpg" class="active" alt="Slide 1" />
+        <img src="/images/blog2.jpg" alt="Slide 2" />
+        <img src="/images/blog3.jpg" alt="Slide 3" />
+      </div>
+    </div>
+  </section>
+  <div class="info-blocks">
+    <div class="info-block">
+        <div class="icon">
+            <i class="ri-discuss-fill"></i>
+        </div>
+        <h3>About BlogSphere</h3>
+        <p>BlogSphere is a platform to share your ideas and thoughts with the world. Join us and explore the wide variety of topics shared by our vibrant community.</p>
+    </div>
+    <div class="info-block">
+        <div class="icon">
+          <i class="ri-group-fill"></i>
+        </div>
+        <h3>Our Community</h3>
+        <p>Connect with like-minded people, discuss topics of interest, and learn from each other. Our community is welcoming and supportive of all voices.</p>
+    </div>
+    <div class="info-block">
+        <div class="icon">
+          <i class="ri-global-fill"></i>
+        </div>
+        <h3>Global Reach</h3>
+        <p>With a global audience, your blogs have the potential to reach readers from all over the world. Make your voice heard on BlogSphere.</p>
+    </div>
+</div>
+
+  <section class="templates" id="templates">
+    <div class="templates-content">
+      <div class="template-slider">
+        <div class="slider">
+          <img src="/images/blog4.png" class="active" alt="Template 1" />
+          <img src="/images/blog5.avif" alt="Template 2" />
+          <img src="/images/blog7.webp" alt="Template 3" />
+        </div>
+      </div>
+      <div class="text">
+        <h2>Explore Our Beautiful Templates</h2>
+        <p style="text-align: justify">
+          Stay updated with our latest posts! From industry insights to
+          personal stories, our blog section features a variety of articles
+          written by our talented contributors. Check out our most recent
+          posts and join the conversation
+        </p>
+        <a href="/templates">View All Templates</a>
+      </div>
+    </div>
+  </section>
+  <section class="features" id="features">
+    <div class="features-content">
+      <div class="text">
+        <h2>Explore Our Features</h2>
+        <p style="text-align: justify">
+          BlogSphere offers a range of powerful features to enhance your
+          blogging experience. From customizable layouts to integrated
+          analytics, our platform is designed to help you grow your audience
+          and improve your content.
+        </p>
+        <a href="/features">Learn More</a>
+      </div>
+      <div class="feature-slider">
+        <div class="slider">
+          <img src="/images/blog8.jpg" class="active" alt="Feature 1" />
+          <img src="/images/blog9.jpg" alt="Feature 2" />
+          <img src="/images/blog10.webp" alt="Feature 3" />
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="testimonials" id="testimonials">
+    <div class="testimonials-content">
+      <div class="testimonial-slider">
+        <div class="slider">
+          <img src="/images/client1.png" class="active" alt="Testimonial 1" />
+          <img src="/images/client2.png" alt="Testimonial 2" />
+          <img src="/images/client3.png" alt="Testimonial 3" />
+        </div>
+      </div>
+      <div class="text">
+        <h2>What Our Users Say</h2>
+        <p style="text-align: justify">
+          Read testimonials from our satisfied customers and see how
+          Blogsphere has helped them achieve their online goals.
+        </p>
+        <a href="/testimonals">Read More Testimonials</a>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-content">
+      <div class="footer-left">
+        <h3>BLOGSPHERE</h3>
+        <p>Your go-to platform for creating and sharing your passions.</p>
+        <p>&copy; 2024 Blogsphere. All rights reserved.</p>
+      </div>
+      <div class="footer-center">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="/"><i class="ri-home-4-fill"></i> Home</a></li>
+          <li><a href="/about"><i class="ri-profile-line"></i> About</a></li>
+          <li><a href="#features"><i class="ri-list-settings-line"></i> Features</a></li>
+          <li><a href="#testimonials"><i class="ri-chat-check-fill"></i> Testimonials</a></li>
+        </ul>
+      </div>
+      <div class="footer-right">
+        <h4>Contact Us</h4>
+        <p><i class="ri-mail-send-fill"></i> Email: support@blogsphere.com</p>
+        <p><i class="ri-phone-fill"></i> Phone: +1 (800) 123-4567</p>
+        <div class="social-media">
+          <a href="https://www.facebook.com" class="social-icon" target="_blank" rel="noopener noreferrer">
+            <i class="ri-facebook-fill"></i> Facebook
+          </a>
+          <a href="https://www.instagram.com" class="social-icon" target="_blank" rel="noopener noreferrer">
+            <i class="ri-instagram-fill"></i> Instagram
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script>
+    function toggleMenu() {
+      const popupMenu = document.getElementById("popup-menu");
+      popupMenu.classList.toggle("open");
+    }
+
+    function hideMenu() {
+      const popupMenu = document.getElementById("popup-menu");
+      popupMenu.classList.remove("open");
+    }
+
+    document.querySelectorAll(".popup-menu a").forEach((menuItem) => {
+      menuItem.addEventListener("click", hideMenu);
+    });
+
+    const sliders = document.querySelectorAll(".slider");
+
+    sliders.forEach((slider) => {
+      let index = 0;
+      const images = slider.querySelectorAll("img");
+
+      function showNextImage() {
+        images[index].classList.remove("active");
+        index = (index + 1) % images.length;
+        images[index].classList.add("active");
+      }
+
+      setInterval(showNextImage, 3000);
+    });
+  </script>
+</body>
+
+</html>

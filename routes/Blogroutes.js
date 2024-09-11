@@ -1,0 +1,22 @@
+const express = require('express');
+const router = express.Router();
+const blogcontrollers = require('../controllers/Blogcontrollers');
+const loginauth = require('../middlewares/islogin');
+const authenticate = require('../middlewares/isauthenticate');
+
+router.get('/', loginauth.islogin, blogcontrollers.Blogloads);
+router.get('/:id', loginauth.islogin, blogcontrollers.Blogpost);
+router.get('/edit/:id', loginauth.islogin, blogcontrollers.Editblog);
+router.post('/edit/:id', loginauth.islogin, blogcontrollers.Editsave);
+router.delete('/delete/:id', loginauth.islogin, blogcontrollers.Deleteblog);
+router.get('/all/posts', blogcontrollers.allBlogs);
+router.get('/all/posts/:id', authenticate, blogcontrollers.ShowBlog);
+router.post('/all/post/submit-comment', authenticate, blogcontrollers.addcomments);
+router.post('/login',blogcontrollers.userlogin);
+router.post('/all/posts/delete-comment/:commentId', authenticate, blogcontrollers.deletecomment);
+router.post("/all/posts/submit-reply",authenticate,blogcontrollers.addreply);
+router.get('/export/pdf/:id', authenticate, blogcontrollers.exportPostAsPDF);
+router.post('/contact',blogcontrollers.contactmail);
+router.post('/verify-otp',blogcontrollers.verifyOtp);
+router.post('/resend-otp', blogcontrollers.resendOtp);
+module.exports = router;

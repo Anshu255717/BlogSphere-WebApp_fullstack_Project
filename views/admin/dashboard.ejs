@@ -1,0 +1,36 @@
+<%- include('./adminheader') %>
+
+<div class="admin-main">
+    <div class="sidebar">
+        <!-- Sidebar -->
+    </div>
+    <div class="content">
+        <!-- Background Image Section -->
+        <div class="background-section">
+            <div class="profile-wrapper">
+                <div class="profile-picture" style="background-image: url('<%=data.Profile%>');"></div>
+                <div class="profile-info">
+                    <h3><%=data.name%></h3>
+                    <p><%=data.email%></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <h4>Total Blogs</h4>
+                <p><%=data.posts%></p>
+            </div>
+            <div class="stat">
+                <h4>Total Comments</h4>
+                <p><%=data.comments%></p>
+            </div>
+            <div class="stat">
+                <h4>Total Likes</h4>
+                <p><%=data.replies%></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('./adminfooter') %>

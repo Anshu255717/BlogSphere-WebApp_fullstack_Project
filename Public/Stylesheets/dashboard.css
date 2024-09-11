@@ -1,0 +1,310 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: all 0.3s ease; /* Smooth transitions for all properties */
+}
+
+/* Body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Header */
+.admin-header {
+    background-color: #d9b99b; /* Light Brown */
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+    animation: fadeIn 1s ease-out; /* Fade-in animation for header */
+}
+
+.admin-header .container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Main Content */
+.admin-main {
+    display: flex;
+    min-height: 80vh;
+    animation: slideIn 1s ease-out; /* Slide-in animation for main content */
+}
+
+/* Sidebar List Items */
+.sidebar ul li {
+    margin: 1rem 0;
+    margin-right: 2vw;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1.5vw;
+    width: 250px;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth hover effects */
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    display: block;
+    padding: 0.75rem 1rem;
+}
+
+.sidebar ul li a:hover {
+    color: #d9b99b; /* Light Brown */
+    background-color: #f5f5f5;
+}
+
+/* Add hover effect for list items */
+.sidebar ul li:hover {
+    border-color: #d9b99b; /* Light Brown border color on hover */
+    background-color: #f9f9f9;
+    transform: scale(1.02); /* Slightly enlarge on hover */
+}
+
+/* Content */
+.content {
+    flex: 1;
+    padding: 1rem;
+    background-color: #fff;
+    margin-left: 10px;
+    border-radius: 8px;
+    width: calc(100vw - 330px); /* Adjust width to account for sidebar */
+    position: relative;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    animation: fadeIn 1.5s ease-out; /* Fade-in animation for content */
+}
+
+/* Background Image Section */
+.background-section {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background-image: url("/images/hero.png");
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    animation: zoomIn 2s ease-out; /* Zoom-in animation for background image */
+}
+
+/* Profile Wrapper */
+.profile-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 2s ease-out forwards; /* Fade-in animation for profile wrapper */
+}
+
+/* Profile Picture */
+.profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #ccc;
+    border: 3px solid #d9b99b;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease; /* Smooth zoom effect */
+}
+
+.profile-picture:hover {
+    transform: scale(1.1); /* Zoom effect on hover */
+}
+
+/* Profile Info */
+.profile-info h3 {
+    margin-bottom: 0.5rem;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.profile-info p {
+    margin-bottom: 5vh;
+    color: white;
+    font-size: 0.9rem;
+}
+
+/* Stats Section */
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.stats .stat {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    flex: 1;
+    margin: 0 0.5rem;
+    min-width: 220px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out forwards; /* Fade-in animation for stats */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effects */
+}
+
+.stats .stat:hover {
+    transform: translateY(-10px); /* Slightly lift on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow effect */
+}
+
+.stats .stat h4 {
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.stats .stat p {
+    margin: 0;
+    color: #666;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* Footer */
+.admin-footer {
+    background-color: #d9b99b; /* Light Brown */
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+    animation: fadeIn 1.5s ease-out; /* Fade-in animation for footer */
+}
+
+/* Form */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+button {
+    background-color: #d9b99b; /* Light Brown */
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth hover effects */
+}
+
+button:hover {
+    background-color: #b79880; /* Slightly Darker Light Brown */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+/* Responsive Styles */
+
+/* For screens smaller than 1200px (Laptops and smaller) */
+@media (max-width: 1199px) {
+    .sidebar {
+        width: 200px; /* Adjust sidebar width */
+    }
+
+    .content {
+        width: calc(100% - 220px); /* Adjust content width for smaller sidebar */
+    }
+}
+
+/* For screens smaller than 992px (Tablets and smaller) */
+@media (max-width: 991px) {
+    .admin-main {
+        flex-direction: column; /* Stack sidebar and content vertically */
+    }
+
+    .sidebar {
+        width: 100%; /* Make sidebar full-width */
+        margin-bottom: 1rem; /* Add space below sidebar */
+    }
+
+    .content {
+        width: 100%; /* Make content full-width */
+        margin-left: 0; /* Remove left margin */
+    }
+}
+
+/* For screens smaller than 768px (Phones) */
+@media (max-width: 767px) {
+    .sidebar ul li {
+        font-size: 0.9rem; /* Further reduce font size for smaller screens */
+        padding: 0.5rem; /* Adjust padding for better fit */
+        width: 90%;
+    }
+
+    .profile-wrapper {
+        flex-direction: column; /* Stack profile picture and info vertically */
+        align-items: center; /* Center align items */
+    }
+
+    .profile-picture {
+        margin-bottom: 1rem; /* Add space below profile picture */
+    }
+
+    .stats {
+        flex-direction: column; /* Stack stats vertically */
+        align-items: stretch; /* Make stats boxes full-width */
+        margin-bottom: 10vh;
+    }
+
+    .stats .stat {
+        margin: 0 0 1rem; /* Add space below each stat box */
+    }
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(1.1);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

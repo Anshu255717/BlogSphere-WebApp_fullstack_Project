@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <title>Contact Us - BlogSphere</title>
+  <link rel="icon" type="image/x-icon" href="images/fav.jpeg">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background-color: #f4f4f4;
+    }
+
+    .top-bar {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .top-bar a {
+      color: white;
+      text-decoration: underline;
+    }
+
+    .main-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 50px;
+      background-color: #ffffff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .main-nav .logo {
+      font-weight: bold;
+      font-size: 28px;
+      color: #333;
+    }
+
+    .main-nav ul {
+      list-style: none;
+      display: flex;
+      gap: 45px;
+      margin: 0;
+    }
+
+    .main-nav ul li {
+      display: inline;
+    }
+
+    .main-nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+
+    .main-nav ul li a:hover {
+      color: #007bff;
+    }
+
+    .menu-icon {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .popup-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 250px;
+      height: 100%;
+      background-color: #ffffff;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      z-index: 1000;
+      overflow-y: auto;
+      transition: transform 0.3s ease;
+      transform: translateX(100%);
+    }
+
+    .popup-menu.open {
+      display: block;
+      transform: translateX(0);
+    }
+
+    .popup-menu a {
+      display: block;
+      text-decoration: none;
+      color: #333;
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+      transition: background-color 0.3s;
+    }
+
+    .popup-menu a:hover {
+      background-color: #f1f1f1;
+    }
+
+    footer {
+      background-color: #ffffff;
+      color: #333;
+      padding: 20px;
+      text-align: center;
+      border-top: 1px solid #ddd;
+      box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.05);
+      margin-top: 20px;
+    }
+
+    .contact-section {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      padding: 40px 20px;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 20px auto;
+      border-radius: 8px;
+      max-width: 1200px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .contact-image {
+      flex: 1;
+      position: relative;
+      height: 520px;
+      overflow: hidden;
+    }
+
+    .contact-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .contact-form {
+      flex: 2;
+      max-width: 600px;
+      margin: 0;
+      padding: 30px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-form h2 {
+      margin-bottom: 20px;
+      color: #007bff;
+      font-size: 28px;
+    }
+
+    .contact-form label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .contact-form button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    .contact-form button:hover {
+      background-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+      .main-nav ul {
+        display: none;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background-color: #ffffff;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .main-nav ul.show {
+        display: flex;
+      }
+
+      .main-nav ul li {
+        margin: 10px 0;
+        font-size: 18px;
+      }
+
+      .menu-icon {
+        display: block;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: #333;
+      }
+
+      .contact-section {
+        flex-direction: column;
+        padding: 20px;
+      }
+
+      footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="top-bar">
+    <span>Stay updated with our latest blogs, <a href="/blogs/all/posts">check them out!</a></span>
+  </div>
+
+  <header class="main-nav">
+    <div class="logo"><i class="ri-blogger-fill"></i> BlogSphere</div>
+    <ul id="menu">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/blogs/all/posts">Blogs</a></li>
+    </ul>
+    <div class="menu-icon" onclick="toggleMenu()">
+      <i class="ri-menu-3-line"></i>
+    </div>
+    <div class="popup-menu" id="popup-menu">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/blogs/all/posts">Blogs</a>
+    </div>
+  </header>
+  <section class="contact-section">
+    <div class="contact-image">
+        <img id="contact-image" src="images/contacts2.avif" alt="Contact Us">
+    </div>
+    <div class="contact-form">
+        <h2>Contact Us</h2>
+
+        <% if (typeof successMessage !== 'undefined' && successMessage) { %>
+            <div class="alert alert-success" role="alert">
+                <%= successMessage %>
+            </div>
+        <% } %>
+
+        <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= errorMessage %>
+            </div>
+        <% } %>
+
+        <form method="POST" action="/blogs/contact">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required />
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required />
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+</section>
+  <footer>
+    <p>&copy; 2024 BlogSphere. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('popup-menu').classList.toggle('open');
+      document.getElementById('menu').classList.toggle('show');
+    }
+
+    const images = [
+      'images/contact5.avif',
+      'images/contacts2.avif',
+      'images/contact3.gif'
+    ];
+
+    let currentIndex = 0;
+
+    function changeImage() {
+      currentIndex = (currentIndex + 1) % images.length;
+      document.getElementById('contact-image').src = images[currentIndex];
+    }
+
+    setInterval(changeImage, 5000);
+  </script>
+</body>
+
+</html>

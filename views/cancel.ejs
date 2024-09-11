@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/images/fav.jpeg">
+    <title>Payment Cancelled</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 450px;
+            width: 100%;
+        }
+        h2 {
+            color: #e63946;
+            font-size: 26px;
+        }
+        p {
+            color: #333;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .buttons {
+            margin-top: 30px;
+        }
+        button {
+            padding: 12px 20px;
+            margin: 10px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .home-button {
+            background-color: #007bff;
+            color: white;
+        }
+        .retry-button {
+            background-color: #5b82e3;
+            color: white;
+        }
+        .home-button:hover {
+            background-color: #0056b3;
+        }
+        .retry-button:hover {
+            background-color: #4968c3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Payment Cancelled</h2>
+        <p>Your payment was cancelled or an error occurred. Please try again or go back to the home page.</p>
+        <div class="buttons">
+            <button class="home-button" onclick="window.location.href='/';">Back to Home</button>
+            <button class="retry-button" onclick="window.location.href='/payment';">Retry Payment</button>
+        </div>
+    </div>
+</body>
+</html>

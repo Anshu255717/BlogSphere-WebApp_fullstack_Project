@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 20px; 
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .image-container {
+            flex: 1;
+            animation: zoomIn 0.5s ease-out;
+        }
+
+        .image-container img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .form-container {
+            flex: 1; 
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #6f4f28;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            font-size: 16px;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .otp-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .invalid-otp {
+            color: red;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #8d6e63;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #6d4c41;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            background-color: #5b4035;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .image-container,
+            .form-container {
+                flex: none;
+                width: 100%;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="/images/otps.gif" alt="OTP Verification">
+        </div>
+        <div class="form-container">
+            <h1>Verify Your OTP</h1>
+            <p class="description">Your OTP expires in 15 minutes. If you don't receive it or it has expired, you can request a new one.</p>
+            <div class="otp-section">
+                <% if (otpInvalid && otpInvalid !== null) { %>
+                    <p class="invalid-otp" id="invalidOtp">The OTP you entered is invalid. Please try again.</p>
+                <% } %>
+                <form action="/admin/verify-otp" method="post" class="otp-form">
+                    <input type="hidden" name="otpToken" value="<%= otpToken %>">
+                    <label for="otp">Enter OTP:</label>
+                    <input type="text" id="otp" name="otp" required maxlength="6" pattern="\d{6}" title="Please enter a 6-digit OTP">
+                    <button type="submit">Verify OTP</button>
+                </form>
+            </div>
+            <form action="/admin/resend-otp" method="post" class="resend-form">
+                <input type="hidden" name="otpToken" value="<%= otpToken %>">
+                <button type="submit">Resend OTP</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const invalidOtpElement = document.getElementById('invalidOtp');
+            if (invalidOtpElement) {
+                invalidOtpElement.style.opacity = 1; 
+                setTimeout(() => {
+                    invalidOtpElement.style.opacity = 0; 
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+
+</html>

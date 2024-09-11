@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/images/fav.jpeg">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 90%;
+            max-width: 1000px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-container,
+        .image-container {
+            flex: 1;
+            padding: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .error-message {
+            opacity: 1;
+            transition: opacity 1s;
+            margin-bottom: 20px;
+        }
+
+        .error-message.hidden {
+            opacity: 0;
+        }
+
+        .timer {
+            font-size: 1.1rem;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+            /* Space between buttons */
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004080;
+        }
+
+        .btn-secondary {
+            background-color: #007bff;;
+            border-color: #007bff;;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                width: 95%;
+                padding: 20px;
+            }
+
+            .form-container,
+            .image-container {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .image-container img {
+                max-height: 300px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h3 class="text-center mb-4">Verify OTP</h3>
+            <% if (typeof(error) !=='undefined' ) { %>
+                <p id="errorMessage" class="text-danger error-message">
+                    <%= error %>
+                </p>
+                <% } %>
+                    <div class="timer" id="timer">40s</div>
+                    <form action="/blogs/verify-otp" method="POST">
+                        <div class="form-group">
+                            <label for="otp">Enter OTP</label>
+                            <input type="text" class="form-control" id="otp" name="otp" placeholder="Enter the OTP"
+                                required>
+                            <input type="hidden" name="postid" value="<%= postid %>">
+                        </div>
+                        <div class="button-container">
+                            <button type="submit" class="btn btn-primary">Verify OTP</button>
+                            <button type="button" id="resendButton" class="btn btn-secondary resend-button">Resend
+                                OTP</button>
+                        </div>
+                    </form>
+        </div>
+        <div class="image-container">
+            <img src="/images/otp.gif" alt="OTP Verification">
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const errorMessage = document.getElementById('errorMessage');
+            const timerElement = document.getElementById('timer');
+            const resendButton = document.getElementById('resendButton');
+    
+            let timeLeft = 40;
+            let timerInterval;
+    
+            function startTimer() {
+                clearInterval(timerInterval); 
+                timeLeft = 40;
+                timerElement.textContent = `${timeLeft}s`;
+    
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    timerElement.textContent = `${timeLeft}s`;
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        timerElement.textContent = 'Expired';
+                        resendButton.style.display = 'block';
+                    }
+                }, 1000);
+            }
+    
+            if (errorMessage) {
+                setTimeout(() => {
+                    errorMessage.classList.add('hidden');
+                }, 1000);
+            }
+    
+            startTimer(); 
+    
+            resendButton.addEventListener('click', function () {
+                fetch('/blogs/resend-otp', { method: 'POST' })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            startTimer();
+                        } else {
+                            alert('Failed to resend OTP');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+        });
+    </script>    
+</body>
+
+</html>

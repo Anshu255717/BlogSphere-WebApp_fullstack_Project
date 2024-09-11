@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.2/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="/images/fav.jpeg">
+    <title>BlogSphere All Posts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .site-header {
+            background-color: #d9b99b;
+            color: #fff;
+            padding: 1rem;
+        }
+
+        .site-header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .site-header h1 {
+            margin: 0;
+        }
+
+        .site-header nav {
+            display: flex;
+        }
+
+        .site-header nav ul {
+            list-style: none;
+            display: flex;
+            padding: 0;
+            margin: 0;
+        }
+
+        .site-header nav ul li {
+            margin: 0 1rem;
+        }
+
+        .site-header nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            background-color: #c6a68e;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .site-header nav ul li a:hover {
+            background-color: #b08a6e;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .main-content {
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .post-container {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: flex-start;
+            position: relative;
+            flex-wrap: wrap;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .post-container h2 {
+            margin-bottom: 1rem;
+        }
+
+        .post-image {
+            flex: 0 0 300px;
+            margin-right: 2rem;
+        }
+
+        .post-image img {
+            max-width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .post-content {
+            flex: 1;
+        }
+
+        .post-content p {
+            color: #666;
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .post-meta {
+            margin-bottom: 1rem;
+            color: #888;
+        }
+
+        .post-meta .author,
+        .post-meta .views {
+            display: block;
+        }
+
+        .read-more-btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #d9b99b;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .read-more-btn:hover {
+            background-color: #c6a68e;
+        }
+
+        .edit-btn,
+        .delete-btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            margin-right: 0.5rem;
+        }
+
+        .edit-btn {
+            background-color: #4CAF50;
+            color: #fff;
+        }
+
+        .edit-btn:hover {
+            background-color: #45a049;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+            color: #fff;
+        }
+
+        .delete-btn:hover {
+            background-color: #e53935;
+        }
+
+        .site-footer {
+            background-color: #d9b99b;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .post-time {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 0.5rem;
+        }
+
+        .author {
+            margin-bottom: 0.5rem;
+        }
+
+        .views {
+            display: block;
+            margin-bottom: 1vh;
+        }
+
+        .no-posts {
+            width: 100%;
+            height: calc(100vh - 200px);
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        .no-posts img {
+            max-width: 100%;
+            height: 70vh;
+            border-radius: 8px;
+        }
+
+        .no-posts p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .site-header .container {
+                flex-direction: row;
+                align-items: flex-start;
+                font-size: 3.5vw;
+            }
+
+            .site-header nav ul {
+                flex-direction: row;
+                column-gap: 2vw;
+            }
+
+            .site-header nav ul li {
+                margin: 0.5rem 0;
+            }
+
+            .post-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .post-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+                flex: 1 0 auto;
+            }
+
+            .post-time {
+                font-size: 3vw;
+                margin-top: 1vh;
+            }
+
+            .post-content {
+                text-align: center;
+            }
+
+            .read-more-btn,
+            .edit-btn,
+            .delete-btn {
+                margin: 2rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: auto;
+            }
+        }
+
+        .fade-out {
+            animation: fadeOut 0.5s forwards;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        .slide-up {
+            animation: slideUp 0.5s forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <h1><i class="ri-blogger-fill"></i> BlogSphere</h1>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/admin/dashboard">Dashboard</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="main-content posts">
+        <% if (posts.length> 0) { for (let i = posts.length - 1; i >= 0; i--) { %>
+            <div class="container" id="post-<%= posts[i]._id %>">
+                <div class="post-container">
+                    <div class="post-image">
+                        <img src="<%= posts[i].image %>" alt="Post Image">
+                    </div>
+                    <div class="post-content">
+                        <div class="post-meta">
+                            <span class="author">Posted by: <%= posts[i].adminName %></span>
+                            <div class="post-time">Posted On: <%= new Date(posts[i].createdAt).toLocaleDateString() %>
+                                    At
+                                    <%= new Date(posts[i].createdAt).toLocaleTimeString() %>
+                            </div>
+                            <span class="views">Views: <%= posts[i].views%></span>
+                        </div>
+                        <h2>
+                            <%= posts[i].title %>
+                        </h2>
+                        <p>
+                            <%- posts[i].content %>
+                        </p>
+                        <a href="/blogs/<%= posts[i]._id %>" class="read-more-btn" target="_blank">Read More</a>
+                        <a href="/blogs/edit/<%= posts[i]._id %>" class="edit-btn">Edit</a>
+                        <a href="/blogs/delete/<%= posts[i]._id %>" class="delete-btn"
+                            data-id="<%= posts[i]._id %>">Delete</a>
+                    </div>
+                </div>
+            </div>
+            <% } } else { %>
+                <div class="no-posts">
+                    <img src="images/nopost.png" alt="No Posts Image">
+                    <p>No posts available.</p>
+                </div>
+                <% } %>
+    </main>
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2024 BlogSphere. All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script>
+        var socket = io();
+        var currentadmin = "<%= admin.name %>";
+
+        socket.on("new_post", function (formdata) {
+            if (formdata.admin == currentadmin) {
+                var createdAt = new Date(formdata.createdat);
+                var formattedDate = createdAt.toLocaleDateString();
+                var formattedTime = createdAt.toLocaleTimeString();
+
+                var html = `
+        <div class="container" id="post-${formdata._id}">
+            <div class="post-container">
+                <div class="post-image">
+                    <img src="${formdata.postimage}" alt="Post Image">
+                </div>
+                <div class="post-content">
+                    <div class="post-meta">
+                        <span class="author">Posted by: ${formdata.admin}</span>
+                        <div class="post-time">Posted On: ${formattedDate} At ${formattedTime}</div>
+                        <span class="views" id="postviews">Views: ${formdata.views}</span>
+                    </div>
+                    <h2>${formdata.title}</h2>
+                    <p>${formdata.content}</p>
+                    <a href="/blogs/${formdata._id}" class="read-more-btn" target="_blank">Read More</a>
+                    <a href="/blogs/edit/${formdata._id}" class="edit-btn">Edit</a>
+                    <a href="/blogs/delete/${formdata._id}" class="delete-btn" data-id="${formdata._id}">Delete</a>
+                </div>
+            </div>
+        </div>`;
+                $(".posts").prepend(html);
+                $(".no-posts").hide();
+            }
+        });
+
+        $(document).on('click', '.delete-btn', function (e) {
+            e.preventDefault();
+            var $postContainer = $(this).closest('.post-container');
+            var postId = $(this).data('id');
+
+            $postContainer.addClass('fade-out'); 
+
+            // Delay AJAX request until animation completes
+            setTimeout(function () {
+                $.ajax({
+                    url: `/blogs/delete/${postId}`,
+                    type: 'DELETE',
+                    success: function (result) {
+                        socket.emit('delete_post', result.postId);
+                        $postContainer.closest('.container').remove();
+                        if ($('.post-container').length === 0) {
+                            $(".no-posts").show();
+                        }
+                    },
+                    error: function (err) {
+                        console.error(err);
+                    }
+                });
+            }, 500); 
+        });
+    </script>
+</body>
+
+</html>

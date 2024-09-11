@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/images/fav.jpeg">
+    <title>Guest Email Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            height: 90%;
+            width: 90%;
+            max-width: 1200px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-container,
+        .image-container {
+            flex: 1;
+            padding: 30px;
+            text-align: center;
+            transition: opacity 0.3s;
+        }
+
+        .login-container {
+            background: #fff;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .login-container input {
+            width: calc(100% - 20px);
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .login-container input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+            outline: none;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .login-container button:hover {
+            background-color: #0056b3;
+            transform: scale(1.02);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            opacity: 1;
+            transition: opacity 1s;
+        }
+
+        .error-message.hidden {
+            opacity: 0;
+        }
+
+        .notification-message {
+            color: #2ecc71;
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            opacity: 1;
+            transition: opacity 1s;
+        }
+
+        .notification-message.hidden {
+            opacity: 0;
+        }
+
+        .image-container {
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            transition: transform 0.3s;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .image-container:hover img {
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .login-container,
+            .image-container {
+                width: 100%;
+                padding: 20px;
+            }
+
+            .captcha-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .captcha-container img {
+                width: 80%;
+                height: auto;
+                margin-bottom: 10px;
+            }
+
+            .captcha-container input {
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="login-container">
+            <h2>Guest Email Verification</h2>
+            
+            <!-- Notification Message -->
+            <p id="notificationMessage" class="notification-message">
+                Your email verification will be valid for 7 days!
+            </p>
+
+            <% if (typeof error !=='undefined' ) { %>
+                <p id="errorMessage" class="error-message">
+                    <%= error %>
+                </p>
+            <% } %>
+
+            <form id="verificationForm" action="/blogs/login" method="POST">
+                <input type="hidden" name="postid" value="<%= postid %>">
+                <input type="text" id="name" name="name" placeholder="Name (optional)">
+                <input type="email" id="email" name="email" placeholder="Email" required>
+                <div class="captcha-container">
+                    <img src="/captcha/captcha" alt="CAPTCHA Image">
+                    <input type="text" id="captcha" name="captcha" placeholder="Enter CAPTCHA" required>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <div class="image-container">
+            <img src="/images/loginss.gif" alt="Descriptive Image">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const notificationMessage = document.getElementById('notificationMessage');
+
+            setTimeout(() => {
+                notificationMessage.classList.add('hidden');
+            }, 3000); 
+
+            document.getElementById('verificationForm').addEventListener('submit', function (event) {
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const errorMessage = document.getElementById('errorMessage');
+
+                if (name && !/^[a-zA-Z\s]+$/.test(name)) {
+                    showError('Name must contain only alphabets.');
+                    event.preventDefault();
+                    return;
+                }
+
+                const emailLocalPart = email.split('@')[0];
+                if (emailLocalPart.length < 6) {
+                    showError('Email must have at least 6 characters before the "@" symbol.');
+                    event.preventDefault();
+                    return;
+                }
+
+            });
+
+            function showError(message) {
+                const errorMessage = document.getElementById('errorMessage');
+                errorMessage.textContent = message;
+                errorMessage.classList.remove('hidden');
+                setTimeout(() => {
+                    errorMessage.classList.add('hidden');
+                }, 3000); 
+            }
+        });
+    </script>
+</body>
+
+</html>

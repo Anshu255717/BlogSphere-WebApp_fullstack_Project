@@ -1,0 +1,92 @@
+<%- include('./adminheader') %>
+<div class="content">
+    <h2>Create a New Post</h2>
+    <form action="/admin/create-post" method="POST" enctype="multipart/form-data" id="addpost">
+        <div class="form-group">
+            <label for="title">Post Title</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="content">Post Content</label>
+            <textarea id="content" name="content" rows="10" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="image">Upload Image</label>
+            <input type="file" id="image" name="postimage" accept="image/*">
+        </div>
+        <button type="submit">Create Post</button>
+    </form>
+</div>
+
+<script src="https://cdn.tiny.cloud/1/bw2yijz6aofdhpmlupgcy542sdrpn75010yr2ljax9vyahir/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+<script>
+  tinymce.init({
+    selector: '#content', 
+    plugins: 'link image code lists', 
+    toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image', 
+    menubar: false, 
+    height: 300, 
+    branding: false, 
+    setup: function(editor) {
+        editor.on('change', function() {
+            tinymce.triggerSave(); 
+        });
+    }
+  });
+
+  $(document).ready(function() {
+    $("#addpost").submit(function(event) {
+      event.preventDefault();
+      var obj = $(this);
+      var formdata = new FormData(this);
+
+      tinymce.triggerSave();
+
+      $.ajax({
+        url: '/admin/create-post',
+        type: 'POST',
+        data: formdata,
+        contentType: false,
+        processData: false,
+        success: function(data) {
+          if (data.success) {
+            $(obj)[0].reset();
+            tinymce.get('content').setContent(''); 
+            formdata.append('_id', data._id);
+            formdata.append('filename', data.filename);
+            formdata.append('views', data.views);
+            formdata.append('created_At', data.date);
+            formdata.append('admin', data.admin);
+            
+            var successMessage = $('<p>', {
+              text: 'Post added successfully!',
+              css: {
+                marginTop: '5vh',
+                color: 'green'
+              }
+            }).appendTo(obj);
+
+            setTimeout(function() {
+              successMessage.fadeOut(500, function() {
+                $(this).remove(); 
+              });
+            }, 1000);
+
+            var socket = io();
+            var postData = {};
+            formdata.forEach((value, key) => postData[key] = value);
+            socket.emit('new_post', postData);
+          } else {
+            alert(data.msg);
+          }
+        },
+        error: function(xhr, status, error) {
+          console.log("Error: " + error);
+        }
+      });
+    });
+  });
+</script>
+
+<%- include('./adminfooter') %>

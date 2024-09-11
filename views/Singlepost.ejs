@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/images/fav.jpeg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.2/socket.io.js"></script>
+    <title>BlogSphere - Post</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .site-header {
+            background-color: #d9b99b;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .site-header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .site-header nav ul {
+            list-style: none;
+            display: flex;
+            padding: 0;
+        }
+
+        .site-header nav ul li {
+            margin: 0 1rem;
+        }
+        .site-header nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            background-color: #c6a68e;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .site-header nav ul li a:hover {
+            background-color: #b08a6e;
+            color: #fff;
+            text-decoration: none;
+        }
+
+
+        .search-bar {
+            margin: 0 auto;
+        }
+
+        .search-bar input[type="text"] {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 4px;
+            width: 200px;
+            margin-right: 0.5rem;
+        }
+
+        .search-bar button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #d9b99b;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .search-bar button:hover {
+            background-color: #c6a68e;
+        }
+
+        .main-content {
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .post-container {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: flex-start;
+            flex-direction: row;
+            gap: 1rem;
+        }
+
+        .post-image {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .post-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .post-content {
+            flex: 2;
+            max-width: 800px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .post-content h2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .post-author {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-content p {
+            color: #666;
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .read-more-btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #d9b99b;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .read-more-btn:hover {
+            background-color: #c6a68e;
+        }
+
+        .comment-form {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+
+        .comment-form h3 {
+            margin-bottom: 1rem;
+        }
+
+        .comment-form input[type="text"],
+        .comment-form input[type="email"],
+        .comment-form textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .comment-form button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #d9b99b;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .comment-form button:hover {
+            background-color: #c6a68e;
+        }
+
+        .comments-section {
+            margin-top: 2rem;
+        }
+
+        .comment {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .comment .comment-author {
+            font-weight: bold;
+        }
+
+        .comment .comment-content {
+            margin-top: 0.5rem;
+        }
+
+        .comment .comment-date {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 0.5rem;
+        }
+
+        .site-footer {
+            background-color: #d9b99b;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .views {
+            display: block;
+            margin-bottom: 1vh;
+        }
+
+        .post-time {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-reactions {
+            margin: 1rem 0;
+        }
+
+        .like-button,
+        .dislike-button {
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-right: 0.5rem;
+        }
+        .like-button{
+            background-color:green;
+        }
+        .dislike-button{
+            background-color:red;
+        }
+
+        .like-button {
+            margin-left: 40vw;
+        }
+
+        .like-button:hover
+         {
+            background-color: rgb(11, 152, 11);
+        }
+        .dislike-button:hover
+         {
+            background-color: rgb(233, 57, 57);
+        }
+
+        .like-button i,
+        .dislike-button i {
+            margin-right: 0.5rem;
+        }
+
+        .delete-button {
+            background-color: #d9b99b;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .delete-button:hover {
+            background-color: #c6a68e;
+        }
+
+        .delete-form {
+            margin-right: 1rem;
+        }
+
+        .reply-button {
+            background-color: #b39f95;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .reply-button:hover {
+            background-color: #c6a68e;
+        }
+
+        .reply-form-container {
+            margin-top: 1rem;
+        }
+
+        .reply-form textarea {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .reply-form button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #d9b99b;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .reply-form button:hover {
+            background-color: #c6a68e;
+        }
+
+        .replies-section {
+            margin-top: 1rem;
+            padding-left: 2rem;
+        }
+        .comments-heading {
+            font-size: 1.2rem;
+            color: #333;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 0.5rem;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .site-header .container {
+                flex-direction: row;
+            }
+
+            .site-header nav ul {
+                flex-direction: row;
+                column-gap: 5vw;
+            }
+
+            .site-header nav ul li {
+                margin: 0.5rem 0;
+            }
+
+            .search-bar {
+                margin: 1rem 2rem;
+            }
+
+            .post-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .post-image {
+                max-width: 100%;
+            }
+
+            .post-content {
+                text-align: center;
+            }
+
+            .post-reactions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .like-button,
+            .dislike-button {
+                width: 100%;
+                max-width: 200px;
+                margin-bottom: 0.5rem;
+            }
+
+            .like-button {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <h1><i class="ri-blogger-fill"></i> BlogSphere</h1>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="main-content">
+        <div class="container">
+            <div class="post-container">
+                <div class="post-image">
+                    <img src="<%=post.image%>" alt="Post Image">
+                </div>
+                <div class="post-content">
+                    <div class="post-author">Posted By: <%= post.adminName %>
+                    </div>
+                    <div class="post-time">Posted On: <%= new Date(post.createdAt).toLocaleDateString()%> At <%= new
+                                Date(post.createdAt).toLocaleTimeString()%>
+                    </div>
+                    <div class="views" id="postviews"> Views: <%= post.views+1%>
+                    </div>
+                    <h2>
+                        <%= post.title %>
+                    </h2>
+                    <p>
+                        <%- post.content %>
+                    </p>
+                    <a href="/blogs" class="read-more-btn">Back to Posts</a>
+                    <div class="post-reactions" data-postid="<%= post._id %>">
+                        <button class="like-button">
+                            <i class="fa fa-thumbs-up"></i>
+                            <%=likes%>
+                        </button>
+                        <button class="dislike-button">
+                            <i class="fa fa-thumbs-down"></i>
+                            <%=dislikes%>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="comment-form" id="comment-form">
+            <h3>Leave a Comment</h3>
+            <form id="commentForm" action="/blogs/all/post/submit-comment" method="POST">
+                <input type="hidden" name="name" value="<%=post.adminName%>">
+                <input type="hidden" name="email" id="currentuser" value="<%=post.adminemail%>">
+                <textarea name="comment" rows="4" placeholder="Your Comment" required></textarea>
+                <input type="hidden" name="postid" value="<%= post._id %>">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <div id="success-message" style="display: none; color: green; margin-top: 1rem;">Comment added successfully!
+        </div><br>
+        <h3 class="comments-heading">Comments</h3>
+        <div class="comments-section" id="comments-container">
+            <% if (post.allcomments.length> 0) { %>
+                <% for(let i=post.allcomments.length-1;i>=0;i--) { %>
+                    <div class="comment" id="comment-<%=post.allcomments[i]._id%>">
+                        <h4>
+                            <%= post.allcomments[i].username %>
+                        </h4>
+                        <p>
+                            <%- post.allcomments[i].content %>
+                        </p>
+                        <div class="comment-date">
+                            <%= new Date(post.allcomments[i].createdAt).toLocaleDateString() %> at
+                                <%= new Date(post.allcomments[i].createdAt).toLocaleTimeString() %>
+                        </div>
+                        <% if (post.allcomments[i].email==post.adminemail) { %>
+                            <form action="/blogs/all/posts/delete-comment/<%= post.allcomments[i]._id %>" method="POST"
+                                class="delete-form">
+                                <button type="submit" class="delete-button">Delete Comment</button>
+                            </form>
+                            <% } %>
+                                <button class="reply-button"
+                                 data-comment-id="<%= post.allcomments[i]._id %>">Reply</button>
+                                <div class="reply-form-container"
+                                    id="reply-form-container-<%= post.allcomments[i]._id %>" style="display: none;">
+                                    <form action="/blogs/all/posts/submit-reply" method="POST" class="reply-form">
+                                        <input type="hidden" name="commentId" value="<%= post.allcomments[i]._id %>">
+                                        <input type="hidden" name="email" value="<%= post.adminemail %>">
+                                        <input type="hidden" name="postId" value="<%= post._id %>">
+                                        <textarea name="reply" rows="3" placeholder="Your Reply" required></textarea>
+                                        <button type="submit">Submit Reply</button>
+                                    </form>
+                                </div>
+                                <div class="replies-section" id="replies-section-<%= post.allcomments[i]._id %>">
+                                    <% if (post.allcomments[i].replies.length> 0) { %>
+                                        <% for (let j=0; j < post.allcomments[i].replies.length; j++) { %>
+                                            <div class="comment reply">
+                                                <div class="comment-content">
+                                                    <h5>
+                                                        <%= post.allcomments[i].replies[j].email %>
+                                                    </h5>
+                                                    <p>
+                                                    <%= post.allcomments[i].replies[j].content %>
+                                                 </p>
+                                              <div class="comment-date">
+                                                 <%= new Date(post.allcomments[i].replies[j].createdAt).toLocaleDateString()%> at
+                                                <%= new Date(post.allcomments[i].replies[j].createdAt).toLocaleTimeString() %>
+                                           </div>
+                                      </div>
+                                    </div>
+                             <% } %>
+                      <% } %>
+                 </div>
+                </div>
+                 <% } %>
+             <% } %>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2024 BlogSphere. All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script>
+        var socket = io();
+        var postid = "<%= post._id %>";
+        var useremail;
+        let user = document.getElementById("currentuser").value;
+        $(document).ready(function ()
+         {
+            $('#commentForm').on('submit', function (event) {
+                event.preventDefault();
+                var formData = {};
+                $.each($(this).serializeArray(), function (i, field) {
+                    formData[field.name] = field.value;
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: formData,
+                    success: function (response) {
+                        if (response.success) {
+                            useremail = response.email;
+                            formData._id = response._id;
+                            formData.createdat = response.createdAt
+                            socket.emit('newComment', formData);
+                            $('#commentForm')[0].reset();
+                            $('#success-message').fadeIn().delay(3000).fadeOut();
+                        } else
+                         {
+                            alert('Error in adding comment');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('AJAX error:', status, error);
+                    }
+                });
+            });
+        });
+
+        socket.on('newComment', function (comment)
+         {
+            var createdAt = new Date(comment.createdat);
+            var html = `
+            <div class="comment" id="comment-${comment._id}">
+            <div class="comment-content">
+                <h4>${comment.name}</h4>
+                <p>${comment.comment}</p>
+                <div class="comment-date">${createdAt.toLocaleDateString()} at ${createdAt.toLocaleTimeString()}</div>
+            </div>
+           `;
+
+            if (comment.email === useremail)
+             {
+                html += `
+            <form action="/blogs/all/posts/delete-comment/${comment._id}" method="POST" class="delete-form">
+                <button type="submit" class="delete-button">Delete Comment</button>
+            </form>
+             `;
+            }
+
+            html += `
+        <button class="reply-button" data-comment-id="${comment._id}">Reply</button>
+        <div class="reply-form-container" id="reply-form-container-${comment._id}" style="display: none;">
+            <form action="/blogs/all/posts/submit-reply" method="POST" class="reply-form">
+                <input type="hidden" name="commentId" value="${comment._id}">
+                  <input type="hidden" name="email" value="${user}">
+                <input type="hidden" name="postId" value="${comment.postid}">
+                <textarea name="reply" rows="3" placeholder="Your Reply" required></textarea>
+                <button type="submit">Submit Reply</button>
+            </form>
+        </div>
+        <div class="replies-section" id="replies-section-${comment._id}">
+            <!-- Replies will be added here -->
+        </div>
+    </div>
+    `;
+            document.querySelector('.comments-section').insertAdjacentHTML('afterbegin', html);
+
+            document.querySelector(`.reply-button[data-comment-id="${comment._id}"]`).addEventListener('click', function () {
+                const replyFormContainer = document.getElementById(`reply-form-container-${comment._id}`);
+                replyFormContainer.style.display = replyFormContainer.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+
+        document.addEventListener('submit', async function (event)
+         {
+            if (event.target.classList.contains('delete-form')) {
+                event.preventDefault();
+                const form = event.target;
+                const formData = new FormData(form);
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const result = await response.json();
+                    if (result.success)
+                     {
+                        socket.emit('Commentdeleted', result.commentid);
+                    } else {
+                        alert('Error deleting comment: ' + result.message);
+                    }
+                } catch (error) 
+                {
+                    console.error('Error:', error);
+                    alert('An unexpected error occurred');
+                }
+            }
+        });
+
+        socket.on('Commentdeleted', (commentid) => {
+            const commentId = commentid;
+            $(`#comment-${commentId}`).remove();
+        });
+
+        $(document).ready(function ()
+         {
+            $('.reply-button').on('click', function () {
+                var commentId = $(this).data('comment-id');
+                var replyFormContainer = $('#reply-form-container-' + commentId);
+                var isVisible = replyFormContainer.is(':visible');
+
+                $('.reply-form-container').not(replyFormContainer).hide();
+
+                replyFormContainer.toggle(!isVisible);
+            });
+        })
+
+        $(document).ready(function ()
+         {
+            $(document).on('submit', '.reply-form', function (event) {
+                event.preventDefault();
+
+                var formData = {};
+                $.each($(this).serializeArray(), function (i, field) {
+                    formData[field.name] = field.value;
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: formData,
+                    success: function (response) {
+                        if (response.success) {
+                            response.commentid = formData.commentId;
+                            socket.emit('newreply', response);
+                            $(this).find('textarea').val(''); 
+                        } else {
+                            alert('Error in adding reply');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('AJAX error:', status, error);
+                    }
+                });
+            });
+        });
+
+        socket.on('newreply', function (response)
+         {
+            var createdAt = new Date(response.reply.createdAt);
+            var replyHtml = `
+                     <div class="comment" id="reply-${response.reply._id}">
+                         <div class="comment-content">
+                            <h5>${response.reply.email}</h5>
+                            <p>${response.reply.content}</p>
+                            <div class="comment-date">${createdAt.toLocaleDateString()} at ${createdAt.toLocaleTimeString()}</div>
+                            </div>
+                        </div>
+                    `;
+            $('#replies-section-' + response.commentid).prepend(replyHtml);
+
+        });
+
+        socket.emit('incview', postid);
+
+        socket.on('updateviews', (data) => {
+            if (postid == data[0]._id) {
+                $(`#postviews`).text('Views:' + data[0].views);
+            }
+        })
+
+        $(document).on('click', '.like-button', function () {
+            socket.emit("like", { postid: postid, email: user });
+        });
+
+        $(document).on('click', '.dislike-button', function () {
+            socket.emit("dislike", { postid: postid, email: user });
+        });
+
+        socket.on('like_dislike', (data) => {
+            const { postid, likes, dislikes } = data;
+            const postElement = document.querySelector(`[data-postid="${postid}"]`);
+            if (postElement) {
+                postElement.querySelector('.like-button i').nextSibling.textContent = likes;
+                postElement.querySelector('.dislike-button i').nextSibling.textContent = dislikes;
+            }
+        });
+    </script>
+</body>
+</html>
