@@ -1,6 +1,6 @@
 require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); 
-const adminmodel = require('../models/AdminModel');
+const adminmodel = require('../models/Adminmodel');
 
 class Payment {
   static async checkout(req, res) {

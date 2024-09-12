@@ -1,6 +1,6 @@
 require('dotenv').config();
 const Postmodel=require('../models/Postmodel');
-const adminmodel=require('../models/AdminModel');
+const adminmodel=require('../models/Adminmodel');
 const commentmodel=require('../models/Commentsmodel');
 const replymodel=require('../models/Replymodel');
 const responsemodel=require('../models/Responsemodel');
