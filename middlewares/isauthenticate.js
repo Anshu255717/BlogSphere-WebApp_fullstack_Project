@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const adminmodel = require('../models/AdminModel');
+const adminmodel = require('../models/Adminmodel');
 module.exports=async (req, res, next) => {
     try {
         const adminToken = req.cookies.token;

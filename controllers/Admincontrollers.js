@@ -1,6 +1,6 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-const adminmodel=require('../models/AdminModel');
+const adminmodel=require('../models/Adminmodel');
 const Postmodel=require('../models/Postmodel');
 const commentmodel=require('../models/Commentsmodel');
 const responsemodel=require('../models/Responsemodel');
